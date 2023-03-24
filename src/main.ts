@@ -1,53 +1,48 @@
-let stringArr = ['one', 'hey', 'Dave']
-let guiters = ['strat', 'Les Paul', 5120]
-let mixedata = ['EVH', 1945, true]
 
-stringArr[0] = 'John'
-stringArr.push('ooh')
 
-guiters[0] = 1455
-guiters.unshift('guiter')
-
-mixedata[0]='guiter';
-mixedata[1] = true;
-mixedata[2]= 'ban'
-
-let test = []
-let bands: string[]= []
-bands.push('Van halen')
-
-//tuple
-let myTuple : [string, number, boolean] = ['Dave', 34, true]
-
-let mixed  = ['jon',4, false]
-
-mixed = myTuple;
-myTuple[0] = 'shaheen';
-myTuple[1] = 89
-myTuple[2] = true;
-
-let myOBJ: object
-myOBJ = []
-console.log(typeof myOBJ);
-
-type Guitarist = {
+/*********************************/
+interface Musician {
     name: string,
-    active: boolean,
-    albums: (string | Number)[]
+    instrument: string,
+    play(action: string):string
 }
 
-let evh: Guitarist ={
-    name: 'Eddie',
-    active: false,
-    albums: [1949, 1971, 'Shaheen']
+class Guitarist implements Musician {
+    name : string
+    instrument: string
+    constructor(
+        name:string, instrument: string
+    ){
+        this.name = name
+        this.instrument = instrument
+    }
+    play(action: string): string {
+        return `${this.name} ${action} the ${this.instrument}`
+    }
 }
 
-console.log(evh);
+const page = new Guitarist('jimmy', 'guitar')
+console.log(page.play('strums'));
 
-let jp :Guitarist = {
-    name: 'Jimmy',
-    active: true,
-    albums: ['I', 'II', 'IV']
+class Bands {
+    private dataState: string[]
+    constructor(){
+        this.dataState = []
+    }
+    public get data(): string[]{
+        return this.dataState;
+    }
+    public set data(value: string[]){
+        if(Array.isArray(value) && value.every(el=> typeof el === 'string')){
+            this.dataState = value
+            return
+        } else throw new Error('Param is not an array of strings')
+    }
 }
 
-console.log(jp);
+const MyBands = new Bands()
+MyBands.data = ['Neil Young', "Led Zep" ]
+console.log(MyBands.data);
+MyBands.data = [...MyBands.data, 'ZZ Top']
+console.log(MyBands.data);
+
